@@ -50,18 +50,43 @@ shinyServer(
                 
                 output$newcases <- renderPrint({
                         if(input$submitButton == 0) ""
-                           else ncases()})
+                           else
+                           {
+                               input$submitButton
+                               isolate(ncases())
+                           }})
+        
                 output$timeatrisk <- renderPrint({
                         if(input$submitButton == 0) ""
-                           else rtime()})
+                           else
+                           {
+                                input$submitButton
+                                isolate(rtime())
+                           }})
                 output$timeinterval <-renderPrint({
                         if(input$submitButton == 0) ""
-                        else paste0(gettimeunits(), " ", gettypef())})
+                        else 
+                        {
+                                input$submitButton
+                                isolate(paste0(gettimeunits(), " ", gettypef()))
+                        }})
                 output$rate <- renderPrint({
                         if(input$submitButton == 0) "Need to hit submit button."
-                        else 
-                        if(rtime()>0) paste0(percent(ncases()/rtime()), " of the people are getting ", getdisease(), " each ", gettype(), ".")
-                        else paste0("None of the people are getting ", getdisease(), " or time needs to be more than 0.")})
-                
+                        else
+                        {
+                                input$submitButton
+                                isolate({if(rtime()>0) paste0(percent(ncases()/rtime()), " of the people are getting ", getdisease(), " each ", gettype(), ".")
+                                else paste0("None of the people are getting ", getdisease(), " or time needs to be more than 0.")})
+                        }})
+                output$newpie <- renderPlot({
+                        if(input$submitButton == 0) ""
+                        else
+                        {
+                                input$submitButton
+                                isolate({mypie <- c(input$EndAtRisk, ncases())              
+                                names(mypie)<-c('Still at Risk', 'Developed Disease')
+                                pie(mypie, col = c("green", "red"))})
+                        }
+                })
         }
 )

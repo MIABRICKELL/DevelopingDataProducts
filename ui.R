@@ -22,7 +22,8 @@ shinyUI(
                         h4('Time Interval '),
                         verbatimTextOutput("timeinterval"),
                         h4('Incidence Rate '),
-                        verbatimTextOutput("rate")
+                        verbatimTextOutput("rate"),
+                        plotOutput("newpie")
                         
                 )
         )
